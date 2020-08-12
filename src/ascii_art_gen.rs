@@ -15,10 +15,10 @@
 
 extern crate image;
 
-use image::RgbImage;
+use image::{RgbImage, imageops};
 
 pub struct AsciiArtGen {
-    image: RgbImage,
+    image_original: RgbImage,
     output_width: u32,
     output_height: u32,
 }
@@ -26,7 +26,7 @@ pub struct AsciiArtGen {
 impl AsciiArtGen {
     pub fn new(img: RgbImage, o_w: u32, o_h: u32) -> AsciiArtGen {
         AsciiArtGen {
-            image: img,
+            image_original: img,
             output_width: o_w,
             output_height: o_h,
         }
@@ -34,6 +34,20 @@ impl AsciiArtGen {
 
     pub fn generate(&self) -> String {
         println!("Not implemented yet!");
+
+        // Start by converting image to grayscale
+        let mut image = imageops::colorops::grayscale(&self.image_original);
+
+        // Resize to asked dimensions if necessary
+        if self.output_width != self.image_original.width() || self.output_height != self.image_original.height() {
+            image = imageops::resize(&image, self.output_width, self.output_height, imageops::CatmullRom);
+        }
+
+        // Blur to have more uniform color
+        image = imageops::blur(&image, 2.0);
+
+        image.save("result.jpg").unwrap();
+
         "blop".to_string()
     }
 }

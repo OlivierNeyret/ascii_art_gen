@@ -17,7 +17,6 @@ extern crate image;
 mod cli;
 mod ascii_art_gen;
 
-use image::{/*GenericImage, GenericImageView,*/ ImageBuffer, RgbImage};
 use cli::Cli;
 use ascii_art_gen::AsciiArtGen;
 use structopt::StructOpt;
@@ -52,6 +51,15 @@ fn main() {
 
     let gen = AsciiArtGen::new(img, output_width, output_height);
     gen.generate();
+
+
+    /*
+    image::imageops::resize(&img, output_width, output_height, image::imageops::Nearest).save("nearest.jpg").unwrap();
+    image::imageops::resize(&img, output_width, output_height, image::imageops::Triangle).save("triangle.jpg").unwrap();
+    image::imageops::resize(&img, output_width, output_height, image::imageops::CatmullRom).save("catmull.jpg").unwrap();
+    image::imageops::resize(&img, output_width, output_height, image::imageops::Gaussian).save("gaussian.jpg").unwrap();
+    image::imageops::resize(&img, output_width, output_height, image::imageops::Lanczos3).save("lanczos3.jpg").unwrap();
+    */
 
     // Create a new image with a red line
     /*
