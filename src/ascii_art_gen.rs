@@ -33,7 +33,7 @@ impl AsciiArtGen {
     }
 
     pub fn generate(&self) -> String {
-        println!("Not implemented yet!");
+        let mut result: String = String::with_capacity((self.output_height * self.output_width + self.output_height) as usize);
 
         // Start by converting image to grayscale
         let mut image = imageops::colorops::grayscale(&self.image_original);
@@ -46,8 +46,35 @@ impl AsciiArtGen {
         // Blur to have more uniform color
         image = imageops::blur(&image, 2.0);
 
-        image.save("result.jpg").unwrap();
+        // Generate!
+        for h in 0..image.height() {
+            for w in 0..image.width() {
+                let p = image.get_pixel(w, h).0[0];
+                if p <= 25 {
+                    result.push('#');
+                } else if p <= 50 {
+                    result.push('@');
+                } else if p <= 75 {
+                    result.push('B');
+                } else if p <= 100 {
+                    result.push('G');
+                } else if p <= 125 {
+                    result.push('O');
+                } else if p <= 150 {
+                    result.push('D');
+                } else if p <= 175 {
+                    result.push('+');
+                } else if p <= 200 {
+                    result.push('-');
+                } else if p <= 225 {
+                    result.push('.');
+                } else {
+                    result.push(' ');
+                }
+            }
+            result.push('\n');
+        }
 
-        "blop".to_string()
+        result
     }
 }

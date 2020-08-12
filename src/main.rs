@@ -20,14 +20,10 @@ mod ascii_art_gen;
 use cli::Cli;
 use ascii_art_gen::AsciiArtGen;
 use structopt::StructOpt;
+use std::fs;
 
 fn main() {
     let args = Cli::from_args();
-    println!("Args = {:?}", args);
-    match args.output_path {
-        None => println!("Pas de fichier de sortie"),
-        Some(v) => println!("Fichier de sortie : {:?} !", v),
-    }
 
     let img = match image::open(args.image_path) {
         Err(e) => {
@@ -41,17 +37,23 @@ fn main() {
         None => img.width(),
         Some(w) => w,
     };
-    println!("Output width = {}", output_width);
 
     let output_height: u32 = match args.output_height {
         None => img.height(),
         Some(h) => h,
     };
-    println!("Output height = {}", output_height);
 
     let gen = AsciiArtGen::new(img, output_width, output_height);
-    gen.generate();
+    let ascii = gen.generate();
 
+    match args.output_path {
+        None => {
+            println!("{}", ascii);
+        }
+        Some(v) => {
+            fs::write(v, ascii).expect("Unable to write to file");
+        }
+    }
 
     /*
     image::imageops::resize(&img, output_width, output_height, image::imageops::Nearest).save("nearest.jpg").unwrap();
