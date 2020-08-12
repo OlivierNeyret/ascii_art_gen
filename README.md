@@ -1,6 +1,16 @@
 # ascii_art_gen
 ascii_art_gen is a little command-line tool designed to transform a picture to an ascii art representation of it. I do it mostly to learn rust.
 
+## Build
+```
+cargo build
+```
+
+## Usage
+```
+ascii_art_gen path/to/image.jpg [-o output_file.txt] [-W output_width] [-H output_height]
+```
+
 # License
 Copyright (C) 2020 Olivier Neyret
 
