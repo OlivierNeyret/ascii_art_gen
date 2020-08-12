@@ -13,25 +13,27 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use structopt::StructOpt;
+extern crate image;
 
-/// Transforms a picture to a pixel art
-#[derive(Debug, StructOpt)]
-pub struct Cli {
-    /// Path to the picture to transform
-    #[structopt(parse(from_os_str))]
-    pub image_path: std::path::PathBuf,
+use image::RgbImage;
 
-    /// Path to the output file
-    #[structopt(short = "o", long = "output", parse(from_os_str))]
-    pub output_path: Option<std::path::PathBuf>,
-
-    /// Width of the output, if none width is the same as the input picture
-    #[structopt(short = "W", long = "width", parse(try_from_str))]
-    pub output_width: Option<u32>,
-
-    /// Height of the output, if none height is the same as the input picture
-    #[structopt(short = "H", long = "height", parse(try_from_str))]
-    pub output_height: Option<u32>,
+pub struct AsciiArtGen {
+    image: RgbImage,
+    output_width: u32,
+    output_height: u32,
 }
 
+impl AsciiArtGen {
+    pub fn new(img: RgbImage, o_w: u32, o_h: u32) -> AsciiArtGen {
+        AsciiArtGen {
+            image: img,
+            output_width: o_w,
+            output_height: o_h,
+        }
+    }
+
+    pub fn generate(&self) -> String {
+        println!("Not implemented yet!");
+        "blop".to_string()
+    }
+}
